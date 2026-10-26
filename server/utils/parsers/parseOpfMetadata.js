@@ -1,5 +1,6 @@
 const { xmlToJSON } = require('../index')
 const htmlSanitizer = require('../htmlSanitizer')
+const UNDEFINED_DATE_ISO = '0101-01-01T00:00:00+00:00'
 
 /**
  * @typedef MetadataCreatorObject
@@ -76,6 +77,7 @@ function fetchTagString(metadata, tag) {
 function fetchDate(metadata) {
   const date = fetchTagString(metadata, 'dc:date')
   if (!date) return null
+  if (date === UNDEFINED_DATE_ISO) return null
   const dateSplit = date.split('-')
   if (!dateSplit.length || dateSplit[0].length !== 4 || isNaN(dateSplit[0])) return null
   return dateSplit[0]
